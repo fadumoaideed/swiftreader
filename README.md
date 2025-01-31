@@ -336,3 +336,85 @@ Note: After renaming, make sure to update any import statements in your JavaScri
 ## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Security Considerations
+
+Before publishing your WebAssembly package to npm, consider these security best practices:
+
+1. **Input Validation**:
+
+   - Always validate and sanitize input parameters
+   - Implement length checks for strings and arrays
+   - Handle integer overflow/underflow cases
+   - Consider using Rust's `checked_*` operations for arithmetic
+
+2. **Memory Safety**:
+
+   - Be cautious with dynamic memory allocation
+   - Implement limits on memory usage
+   - Clean up resources properly using Drop trait
+   - Avoid exposing raw pointers to JavaScript
+
+3. **Package Security**:
+
+   - Use `npm audit` to check for dependencies vulnerabilities
+   - Keep dependencies up to date
+   - Set appropriate package permissions
+   - Use version pinning for dependencies
+
+4. **Publishing Best Practices**:
+
+   - Enable 2FA (Two-Factor Authentication) on your npm account:
+     ```bash
+     npm profile enable-2fa auth-and-writes
+     ```
+   - Use `.npmignore` to exclude sensitive files:
+     ```
+     tests/
+     examples/
+     .gitignore
+     .travis.yml
+     *.log
+     ```
+   - Add a `prepublishOnly` script to ensure clean builds:
+     ```json
+     {
+       "scripts": {
+         "prepublishOnly": "wasm-pack build"
+       }
+     }
+     ```
+
+5. **Code Exposure**:
+
+   - WebAssembly code can be reverse-engineered
+   - Don't include sensitive information in your code
+   - Consider using code obfuscation if necessary
+   - Keep sensitive business logic on the server side
+
+6. **Rate Limiting**:
+
+   - Implement rate limiting for resource-intensive operations
+   - Add timeouts for long-running operations
+   - Consider adding memory usage limits
+
+7. **Error Handling**:
+
+   - Don't expose detailed error messages to the client
+   - Implement proper error handling for all operations
+   - Log errors appropriately without exposing sensitive information
+
+8. **Documentation**:
+
+   - Document security considerations for users
+   - Provide clear usage guidelines
+   - Include security policy (SECURITY.md)
+   - Document known limitations
+
+9. **Testing**:
+   - Include security-focused tests
+   - Test edge cases and error conditions
+   - Implement fuzzing tests for input validation
+   - Test memory usage patterns
+
+Remember: WebAssembly runs with the same permissions as JavaScript in the browser, so follow the same security principles you would for any client-side code.
