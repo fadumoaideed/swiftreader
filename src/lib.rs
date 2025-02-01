@@ -1,10 +1,11 @@
 use wasm_bindgen::prelude::*;
+use web_sys::console;
 
 #[wasm_bindgen]
 pub fn add(a: i32, b: i32) -> i32 {
     // Check for potential overflow
     a.checked_add(b).unwrap_or_else(|| {
-        console_error!("Integer overflow occurred");
+        console::error_1(&"Integer overflow occurred".into());
         0
     })
 }
