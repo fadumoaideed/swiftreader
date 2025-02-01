@@ -147,6 +147,34 @@ cd pkg
 npm publish --access public
 ```
 
+## Publishing to Cargo Registry
+
+1. Generate a Cargo Registry Token:
+
+   - Go to https://crates.io/me
+   - Click "New Token"
+   - Set the token name (e.g., "CI Publishing")
+   - Configure token scopes:
+     - ✓ `publish-new` (Publish new crates)
+     - ✓ `publish-update` (Publish new versions of existing crates)
+   - Keep the token secure - you'll only see it once!
+
+2. Add the token to your environment:
+
+```bash
+# For local publishing
+export CARGO_REGISTRY_TOKEN=your_token_here
+
+# For CI/CD:
+# Add the token to your repository secrets as CARGO_REGISTRY_TOKEN
+```
+
+3. Publish your crate:
+
+```bash
+cargo publish
+```
+
 ## Using the Library
 
 ### In JavaScript/TypeScript
